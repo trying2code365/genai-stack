@@ -1,10 +1,24 @@
+version: '3.8'
+
 services:
+  app:
+    image: your_image_name:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
 
   llm: &llm
     image: ollama/ollama:latest
     profiles: ["linux"]
     networks:
       - net
+
+    networks:
+      app-network:
+        driver: bridge
+      net:
+        driver: bridge
 
   llm-gpu:
     <<: *llm
@@ -239,5 +253,4 @@ services:
     ports:
       - 8505:8505
 
-networks:
-  net:
+
